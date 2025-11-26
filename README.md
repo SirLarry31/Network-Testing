@@ -14,4 +14,13 @@ I am using Nmap to enumerate services ports and operating systems of a device in
 - **OS Detection**: nmap -O 192.198.*.*
 
 ## Observations
-From the scan results i discovered 4 open ports as seen in the image below
+### Basic-Scan
+From the Basic scan results i discovered 4 open ports as seen in the image below
+![basic](Scans/Basic-Scan.PNG)
+### Service Version
+Next I run the following command to detect the Service version. nmap -sV 192.168.30 The image below shows the result of the scan. 
+![SV](Scans/Service-Detect.PNG)
+### OS Detection
+Next i want to detect the Operating System of the device. I run the following command to detect the Operating system. nmap -O 192.168.
+
+![OS](Scans/OS-Detect.PNG)
