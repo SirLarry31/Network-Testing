@@ -143,6 +143,37 @@ Even if a system behind port 445 is patched, its mere availability makes it a ta
 ## Thoughts on TCP Port 445
 - TCP 445 is a vital component of network communication that, if left unprotected, can become a gateway for cybercriminals. By understanding the port’s role, associated risks, and implementing a multi-layered defense strategy, organizations can fortify their network against potential threats. Proactive risk management, combined with continuous monitoring and prompt response to vulnerabilities, forms the bedrock of secure network communication in today’s cyber landscape.
 
+## TCP Port 5357
+- Port 5357 is used by the Web Services for Devices API (WSDAPI), a Microsoft implementation of WS-Discovery, which allows devices on a local network to advertise and discover services such as printers, scanners, and file shares. It’s primarily used in Windows environments, where it facilitates the automatic discovery of devices without needing a central server or manual configuration.
+
+When enabled, WSD uses HTTP over port 5357 (and multicast over 3702/UDP) to allow applications to communicate with services such as WSD-enabled printers or network scanners. It is typically open on Windows clients, printers, and IoT devices, particularly in unmanaged or small networks.
+
+## Security Implications and vulnerability of TCP Port 5357
+- An open port 5357 is typically a standard part of Windows network discovery when your network profile is set to "Private" or "Domain". The risks are generally confined to the local network unless misconfigurations expose the port to the public internet.
+- Unauthorized access: Since devices advertise their presence openly, attackers on the same network may identify and interact with exposed services if insufficient access controls are in place. Attackers can use this service to gather information about connected devices (hostnames, printer names, metadata) which aids in network reconnaissance.
+- Man-in-the-middle attacks: Without encryption, SOAP messages exchanged between devices and hosts can be intercepted and potentially modified.
+- Denial of Service (DoS): Malicious actors may flood WSDAPI listeners with probes or malformed requests, overwhelming device or network resources.
+- Misconfiguration Risk: If a firewall is improperly configured to allow inbound traffic on this port from the public internet, the attack surface is significantly increased.
+- Lateral Movement: Attackers already inside a local network can leverage this port to discover and interact with more devices, facilitating further movement across systems
+
+## How To Secure TCP Port 5357
+- Restrict Access to Port 5357
+
+Ensure WSD is only accessible on local subnets and block access from untrusted or external networks.
+
+Disable WSD Where Not Needed
+
+Ensure Proper Firewall Profile: The Windows Firewall, by default, generally allows WSD traffic only on "Private" or "Domain" profiles but blocks it entirely on "Public" profiles. Ensure your network profile is set correctly.
+
+Replace WSD with more manageable protocols like IPP or LPD, which allow better control and authentication.
+
+Monitor WSD Activity
+
+Watch for unexpected traffic on port 5357 or excessive service discovery broadcasts.
+
+Block inbound TCP port 5357 traffic from external sources (the internet) using your router or the Windows Advanced Firewall settings. 
+
+
 ### Service Version
 Next I run the following command to detect the Service version. nmap -sV 192.168.30 The image below shows the result of the scan. 
 ![SV](Scans/Service-Detect.PNG)
